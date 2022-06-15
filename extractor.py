@@ -1,5 +1,7 @@
 import sys
 import time
+import re
+from datetime import datetime
 
 
 def extract(argv):
@@ -23,6 +25,10 @@ def pcan(argv):
                     """hi"""
                 elif ";---+--   ----+----  --+--  ----+---  +  -+ -- -- -- -- -- -- --" in line:
                     recordingstarted = True
+                elif "Start time:" in line:
+                    date_match = re.search(r'\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}', line)
+                    timetouple = datetime.strptime(date_match.group(), '%d/%m/%Y %H:%M:%S').timetuple()
+                    starttime = time.mktime(timetouple)
 
 
 def print_useage():
